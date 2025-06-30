@@ -10,4 +10,5 @@ jaq-json = { version = "1.1.2", features = ["serde_json"] }
 jaq-std = "2.1.1"
 hifijson = "*"
 serde_json = "1.0.140"
+wit-bindgen = "0.43"
 wstd = "0.5.3"
