@@ -45,6 +45,15 @@ async fn handle(req: Request<IncomingBody>) -> Result<String> {
     Ok(format!("{val}"))
 }
 
+#[component_init::init]
+fn init() {
+    let filt = create_filter().expect("creating filter");
+    FILTER
+        .set(filt)
+        .ok()
+        .expect("filter should be uninitialized")
+}
+
 fn create_filter() -> Result<Filt> {
     use jaq_core::load::{Arena, File, Loader};
     let file = File {
@@ -62,24 +71,3 @@ fn create_filter() -> Result<Filt> {
         .map_err(|es| anyhow!("compiler errors {es:?}"))?;
     Ok(filter)
 }
-
-wit_bindgen::generate!({
-    inline: r"
-    package this:wit;
-    world w {
-        export component-init: func();
-    }"
-});
-
-struct S;
-impl Guest for S {
-    fn component_init() {
-        let filt = create_filter().expect("creating filter");
-        FILTER
-            .set(filt)
-            .ok()
-            .expect("filter should be uninitialized")
-    }
-}
-
-export!(S);

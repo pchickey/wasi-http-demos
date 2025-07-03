@@ -51,6 +51,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "component-init"
+version = "0.1.0"
+source = "git+https://github.com/dicej/component-init#c867e5cdd41b5aa89ad2a123f024ffe85bfe0f24"
+dependencies = [
+ "component-init-macro",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "component-init-macro"
+version = "0.1.0"
+source = "git+https://github.com/dicej/component-init#c867e5cdd41b5aa89ad2a123f024ffe85bfe0f24"
+dependencies = [
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "dyn-clone"
 version = "1.0.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -234,12 +252,12 @@ name = "jaq-http"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "component-init",
  "hifijson",
  "jaq-core",
  "jaq-json",
  "jaq-std",
  "serde_json",
- "wit-bindgen",
  "wstd",
 ]
 
