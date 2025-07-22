@@ -1,7 +1,6 @@
 use anyhow::{anyhow, Context, Result};
 use jaq_core::Filter;
 use jaq_json::Val;
-use std::rc::Rc;
 use std::sync::OnceLock;
 use wstd::http::{
     body::IncomingBody,
@@ -41,7 +40,9 @@ async fn handle(req: Request<IncomingBody>) -> Result<String> {
         .run((jaq_core::Ctx::new([], &inputs), body_val))
         .collect::<Result<Vec<Val>, jaq_json::Error>>()
         .map_err(|es| anyhow!("filter errors {es:?}"))?;
-    let val = Val::Arr(Rc::new(vals));
+    let val = vals
+        .get(0)
+        .ok_or_else(|| anyhow::anyhow!("one result from filter"))?;
     Ok(format!("{val}"))
 }
 
@@ -57,7 +58,7 @@ fn init() {
 fn create_filter() -> Result<Filt> {
     use jaq_core::load::{Arena, File, Loader};
     let file = File {
-        code: ".[]",
+        code: env!("JAQ_PROGRAM"),
         path: (),
     };
     let arena = Arena::default();
