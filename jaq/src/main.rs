@@ -41,7 +41,7 @@ async fn handle(req: Request<IncomingBody>) -> Result<String> {
         .collect::<Result<Vec<Val>, jaq_json::Error>>()
         .map_err(|es| anyhow!("filter errors {es:?}"))?;
     let val = vals
-        .get(0)
+        .first()
         .ok_or_else(|| anyhow::anyhow!("one result from filter"))?;
     Ok(format!("{val}"))
 }
@@ -58,7 +58,7 @@ fn init() {
 fn create_filter() -> Result<Filt> {
     use jaq_core::load::{Arena, File, Loader};
     let file = File {
-        code: env!("JAQ_PROGRAM"),
+        code: option_env!("JAQ_PROGRAM").unwrap_or(".[]"),
         path: (),
     };
     let arena = Arena::default();

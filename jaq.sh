@@ -11,5 +11,9 @@ then
 fi
 
 export JAQ_PROGRAM;
-cargo build --release --target wasm32-wasip2
+cargo build --release -p jaq-http --target wasm32-wasip2
+if [ -x "$(command -v component-init)" ];
+then
+    cargo install --git https://github.com/dicej/component-init component-init-cli
+fi
 component-init target/wasm32-wasip2/release/jaq-http.wasm -o jaq-http.wasm
