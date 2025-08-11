@@ -1,11 +1,11 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use jaq_core::Filter;
 use jaq_json::Val;
 use std::sync::OnceLock;
 use wstd::http::{
+    IntoBody, Request, Response,
     body::IncomingBody,
     server::{Finished, Responder},
-    IntoBody, Request, Response,
 };
 
 #[wstd::http_server]
