@@ -3,3 +3,8 @@ members = [
     "jaq"
 ]
 resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1"
+wstd = "0.5.3"
+component-init = { git = "https://github.com/dicej/component-init" }
