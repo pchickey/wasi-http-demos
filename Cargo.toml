@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "jaq"
+    "jaq",
 ]
 resolver = "2"
 

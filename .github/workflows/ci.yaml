@@ -55,4 +55,4 @@ jobs:
       - name: Example request
         run: |
           resp=$(curl -sS -X POST -d "{\"a\": { \"b\": [1, 2, 3] }, \"c\": { \"d\": 4 } }" http://localhost:8080)
-          if [ "$resp" == "[1,2,3]"]; then exit 0; else exit 1; fi
+          if [[ "$resp" == "[1,2,3]" ]]; then exit 0; else exit 1; fi
