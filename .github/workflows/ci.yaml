@@ -18,14 +18,14 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          targets: wasm32-wasip2
+          target: wasm32-wasip2
           components: rustfmt, clippy
 
       - name: Install wasmtime
         uses: bytecodealliance/actions/wasmtime/setup@v1
 
       - name: Check
-        run: cargo check --all
+        run: cargo check --all --target wasm32-wasip2
 
       - name: Format
         run: cargo fmt --all -- --check
