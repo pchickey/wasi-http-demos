@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+env:
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  build_and_lint:
+    name: Build and lint
+    steps:
+      - uses: actions/checkout@master
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          target: wasm32-wasip2
+      - name: Install wasmtime
+        uses: bytecodealliance/actions/wasmtime/setup@v1
+
+      - name: Check
+        run: cargo check --all
+
+      - name: Format
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all
