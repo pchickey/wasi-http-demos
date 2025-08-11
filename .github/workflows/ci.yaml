@@ -21,9 +21,6 @@ jobs:
           target: wasm32-wasip2
           components: rustfmt, clippy
 
-      - name: Install wasmtime
-        uses: bytecodealliance/actions/wasmtime/setup@v1
-
       - name: Check
         run: cargo check --all --target wasm32-wasip2
 
@@ -32,3 +29,30 @@ jobs:
 
       - name: Clippy
         run: cargo clippy --all
+
+  test_jaq:
+    name: Test jaq-http
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-wasip2
+          components: rustfmt, clippy
+
+      - name: Install wasmtime
+        uses: bytecodealliance/actions/wasmtime/setup@v1
+
+      - name: Build
+        run: ./jaq.sh ".a.b"
+
+      - name: Serve
+        run: wasmtime serve -Scli jaq-http.wasm &
+
+      - name: Example request
+        run: |
+          resp=$(curl -sS -X POST -d "{\"a\": { \"b\": [1, 2, 3] }, \"c\": { \"d\": 4 } }" http://localhost:8080)
+          if [ "$resp" == "[1,2,3]"]; then exit 0; else exit 1; fi
