@@ -16,6 +16,10 @@ jobs:
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          targets: wasm32-wasip2
+          components: rustfmt, clippy
 
       - name: Install wasmtime
         uses: bytecodealliance/actions/wasmtime/setup@v1
