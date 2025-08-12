@@ -77,7 +77,7 @@ jobs:
         run: cargo build -p hmac-auth --release --target wasm32-wasip2
 
       - name: Serve
-        run: wasmtime serve -Scli target/wasm32-wasip2/release/hmac-auth.wasm
+        run: wasmtime serve -Scli target/wasm32-wasip2/release/hmac-auth.wasm &
 
       - name: Check valid requests
         run: |
