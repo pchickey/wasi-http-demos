@@ -1,10 +1,16 @@
 [workspace]
 members = [
+    "hmac-auth",
+    "hmac-sign",
     "jaq",
 ]
 resolver = "2"
 
 [workspace.dependencies]
 anyhow = "1"
-wstd = "0.5.3"
 component-init = { git = "https://github.com/dicej/component-init" }
+hex = "0.4"
+hmac = "0.12.1"
+serde_json = "1.0.140"
+sha2 = "0.10.9"
+wstd = "0.5.3"
