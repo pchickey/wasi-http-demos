@@ -56,3 +56,40 @@ jobs:
         run: |
           resp=$(curl -sS -X POST -d "{\"a\": { \"b\": [1, 2, 3] }, \"c\": { \"d\": 4 } }" http://localhost:8080)
           if [[ "$resp" == "[1,2,3]" ]]; then exit 0; else exit 1; fi
+
+  test_hmac:
+    name: Test hmac-auth
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-wasip2
+          components: rustfmt, clippy
+
+      - name: Install wasmtime
+        uses: bytecodealliance/actions/wasmtime/setup@v1
+
+      - name: Build
+        run: cargo build -p hmac-auth --release --target wasm32-wasip2
+
+      - name: Serve
+        run: wasmtime serve -Scli target/wasm32-wasip2/release/hmac-auth.wasm
+
+      - name: Check valid requests
+        run: |
+          curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'http://localhost:8080/')" http://localhost:8080
+          curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'http://localhost:8080/foo?bar=baz')" http://localhost:8080/foo\?bar=baz
+
+      - name: Check invalid request
+        run: |
+          if curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'garbage')" http://localhost:8080 ; then
+            echo "should have failed"
+            exit 1
+          else
+            echo "should be unauthorized"
+            exit 0
+          fi
