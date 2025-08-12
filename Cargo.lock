@@ -277,7 +277,6 @@ name = "hmac-auth"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "component-init",
  "hex",
  "hmac",
  "serde_json",
@@ -630,6 +629,15 @@ dependencies = [
  "hashbrown",
  "indexmap",
  "semver",
+]
+
+[[package]]
+name = "weather"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "serde_json",
+ "wstd",
 ]
 
 [[package]]

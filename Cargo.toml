@@ -1,8 +1,9 @@
 [workspace]
 members = [
     "hmac-auth",
-    "hmac-sign",
+    "hmac-auth/sign",
     "jaq",
+    "weather",
 ]
 resolver = "2"
 
