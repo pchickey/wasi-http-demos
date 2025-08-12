@@ -10,8 +10,11 @@ resolver = "2"
 [workspace.dependencies]
 anyhow = "1"
 component-init = { git = "https://github.com/dicej/component-init" }
+futures-concurrency = "7.6"
 hex = "0.4"
 hmac = "0.12.1"
+serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.140"
+serde_qs = "0.15"
 sha2 = "0.10.9"
 wstd = "0.5.3"

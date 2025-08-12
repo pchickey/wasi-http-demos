@@ -5,5 +5,8 @@ edition = "2024"
 
 [dependencies]
 anyhow.workspace = true
+futures-concurrency.workspace = true
+serde.workspace = true
 serde_json.workspace = true
+serde_qs.workspace = true
 wstd.workspace = true
