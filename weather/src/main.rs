@@ -1,9 +1,9 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use serde::{Deserialize, Serialize};
 use wstd::http::{
+    Client, IntoBody, Method, Request, Response, StatusCode, Uri,
     body::IncomingBody,
     server::{Finished, Responder},
-    Client, IntoBody, Method, Request, Response, StatusCode, Uri,
 };
 
 // Be polite: informative user-agent

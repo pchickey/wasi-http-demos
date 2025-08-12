@@ -1,10 +1,10 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use hmac::{Hmac, Mac};
 use sha2::Sha256;
 use wstd::http::{
+    IntoBody, Method, Request, Response, StatusCode,
     body::IncomingBody,
     server::{Finished, Responder},
-    IntoBody, Method, Request, Response, StatusCode,
 };
 
 #[wstd::http_server]
