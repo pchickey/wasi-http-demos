@@ -47,7 +47,7 @@ jobs:
         uses: bytecodealliance/actions/wasmtime/setup@v1
 
       - name: Build
-        run: ./jaq.sh ".a.b"
+        run: ./generate-jaq.sh ".a.b"
 
       - name: Serve
         run: wasmtime serve -Scli jaq-http.wasm &
@@ -68,7 +68,6 @@ jobs:
         with:
           toolchain: stable
           target: wasm32-wasip2
-          components: rustfmt, clippy
 
       - name: Install wasmtime
         uses: bytecodealliance/actions/wasmtime/setup@v1
@@ -83,6 +82,42 @@ jobs:
         run: |
           curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'http://localhost:8080/')" http://localhost:8080
           curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'http://localhost:8080/foo?bar=baz')" http://localhost:8080/foo\?bar=baz
+
+      - name: Check invalid request
+        run: |
+          if curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'garbage')" http://localhost:8080 ; then
+            echo "should have failed"
+            exit 1
+          else
+            echo "should be unauthorized"
+            exit 0
+          fi
+
+  test_weather:
+    name: Test weather
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-wasip2
+
+      - name: Install wasmtime
+        uses: bytecodealliance/actions/wasmtime/setup@v1
+
+      - name: Build
+        run: cargo build -p weather --release --target wasm32-wasip2
+
+      - name: Serve
+        run: wasmtime serve -Scli target/wasm32-wasip2/release/weather.wasm &
+
+      - name: Check weather
+        run: |
+          curl --fail http://localhost:8080
+          curl --fail http://localhost:8080\?city=new%20york\&count=3
 
       - name: Check invalid request
         run: |
