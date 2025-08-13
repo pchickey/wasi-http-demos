@@ -154,7 +154,7 @@ async fn fetch_locations(query: &Query) -> Result<Vec<Location>> {
 
     // Construct the request uri using serde_qs to serialize GeoQuery into a query string.
     let uri = Uri::builder()
-        .scheme("https")
+        .scheme("http")
         .authority("geocoding-api.open-meteo.com")
         .path_and_query(format!(
             "/v1/search?{}",
@@ -272,7 +272,7 @@ async fn fetch_weather(location: &Location) -> Result<Weather> {
     // Construct the uri to the forecast api, serializing the query string
     // with serde_qs.
     let uri = Uri::builder()
-        .scheme("https")
+        .scheme("http")
         .authority("api.open-meteo.com")
         .path_and_query(format!(
             "/v1/forecast?{}",
