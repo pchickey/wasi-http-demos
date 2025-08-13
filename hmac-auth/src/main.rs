@@ -1,10 +1,10 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use hmac::{Hmac, Mac};
 use sha2::Sha256;
 use wstd::http::{
+    IntoBody, Method, Request, Response, StatusCode,
     body::IncomingBody,
     server::{Finished, Responder},
-    IntoBody, Method, Request, Response, StatusCode,
 };
 
 /// Secret key to initialize SHA-256 HMAC. use the SECRET_KEY environment
@@ -73,7 +73,7 @@ async fn main(req: Request<IncomingBody>, responder: Responder) -> Finished {
                     .unwrap_or(&StatusCode::INTERNAL_SERVER_ERROR),
             )
             // Since this is a demo, use the debug representation for the
-            // error body. In prod you'd probably log this.
+            // error body. In prod you'd perhaps log this.
             .body(format!("{e:?}").into_body())
             .unwrap(),
     };
