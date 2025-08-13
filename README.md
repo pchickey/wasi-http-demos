@@ -56,7 +56,7 @@ For help calculating the correct signature, use `hmac-sign`:
 
 ```sh
 curl -v -H "Signature: $(cargo run -p hmac-sign -- 'http://localhost:8080/foo?bar=baz')" \
-    http://localhost:8080/foo?bar=baz
+    "http://localhost:8080/foo?bar=baz"
 ```
 
 Note that the complete URL matching the request must be provided to `hmac-sign`.
