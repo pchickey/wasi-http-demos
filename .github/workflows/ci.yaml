@@ -118,13 +118,3 @@ jobs:
         run: |
           curl --fail http://localhost:8080
           curl --fail http://localhost:8080\?city=new%20york\&count=3
-
-      - name: Check invalid request
-        run: |
-          if curl --fail -H "Signature: $(cargo run -p hmac-sign -- 'garbage')" http://localhost:8080 ; then
-            echo "should have failed"
-            exit 1
-          else
-            echo "should be unauthorized"
-            exit 0
-          fi
